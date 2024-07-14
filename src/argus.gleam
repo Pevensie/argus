@@ -4,8 +4,8 @@ pub type Argon2Algorithm {
   Argon2id
 }
 
-pub opaque type ArgusHasher {
-  ArgusHasher(
+pub opaque type Hasher {
+  Hasher(
     algorithm: Argon2Algorithm,
     time_cost: Int,
     memory_cost: Int,
@@ -14,10 +14,12 @@ pub opaque type ArgusHasher {
   )
 }
 
-pub type ArgusHash {
-  ArgusHash(raw_hash: BitArray, encoded_hash: String)
+pub type Hashes {
+  Hashes(raw_hash: BitArray, encoded_hash: String)
 }
 
+/// All possible Argon2 hashing errors.
+/// Most are unlikely to occur, but it's good to be aware of them.
 pub type HashError {
   OutputPointerIsNull
   OutputTooShort
@@ -66,8 +68,8 @@ pub type HashError {
 ///
 /// The `hasher_argon2i` function is provided with the recommended settings for
 /// Argon2i.
-pub fn hasher() -> ArgusHasher {
-  ArgusHasher(
+pub fn hasher() -> Hasher {
+  Hasher(
     Argon2id,
     2,
     // 19 mebibytes
@@ -80,8 +82,8 @@ pub fn hasher() -> ArgusHasher {
 /// Create a new hasher with default settings based on the
 /// [OWASP recommendations](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#argon2id) for
 /// Argon2i.
-pub fn hasher_argon2i() -> ArgusHasher {
-  ArgusHasher(
+pub fn hasher_argon2i() -> Hasher {
+  Hasher(
     Argon2i,
     3,
     // 12 mebibytes
@@ -92,28 +94,28 @@ pub fn hasher_argon2i() -> ArgusHasher {
 }
 
 /// Set the algorithm to use for the hasher.
-pub fn algorithm(hasher: ArgusHasher, algorithm: Argon2Algorithm) -> ArgusHasher {
-  ArgusHasher(..hasher, algorithm: algorithm)
+pub fn algorithm(hasher: Hasher, algorithm: Argon2Algorithm) -> Hasher {
+  Hasher(..hasher, algorithm: algorithm)
 }
 
 /// Set the time cost to use for the hasher.
-pub fn time_cost(hasher: ArgusHasher, time_cost: Int) -> ArgusHasher {
-  ArgusHasher(..hasher, time_cost: time_cost)
+pub fn time_cost(hasher: Hasher, time_cost: Int) -> Hasher {
+  Hasher(..hasher, time_cost: time_cost)
 }
 
 /// Set the memory cost to use for the hasher.
-pub fn memory_cost(hasher: ArgusHasher, memory_cost: Int) -> ArgusHasher {
-  ArgusHasher(..hasher, memory_cost: memory_cost)
+pub fn memory_cost(hasher: Hasher, memory_cost: Int) -> Hasher {
+  Hasher(..hasher, memory_cost: memory_cost)
 }
 
 /// Set the parallelism to use for the hasher.
-pub fn parallelism(hasher: ArgusHasher, parallelism: Int) -> ArgusHasher {
-  ArgusHasher(..hasher, parallelism: parallelism)
+pub fn parallelism(hasher: Hasher, parallelism: Int) -> Hasher {
+  Hasher(..hasher, parallelism: parallelism)
 }
 
 /// Set the hash length to use for the hasher.
-pub fn hash_length(hasher: ArgusHasher, hash_length: Int) -> ArgusHasher {
-  ArgusHasher(..hasher, hash_length: hash_length)
+pub fn hash_length(hasher: Hasher, hash_length: Int) -> Hasher {
+  Hasher(..hasher, hash_length: hash_length)
 }
 
 /// Hash a password using the provided hasher.
@@ -135,10 +137,10 @@ pub fn hash_length(hasher: ArgusHasher, hash_length: Int) -> ArgusHasher {
 /// let assert Ok(True) = argus.verify(hashes.encoded_hash, "password")
 /// ```
 pub fn hash(
-  hasher: ArgusHasher,
+  hasher: Hasher,
   password: String,
   salt: String,
-) -> Result(ArgusHash, HashError) {
+) -> Result(Hashes, HashError) {
   let result =
     jargon_hash(
       password,
@@ -150,7 +152,7 @@ pub fn hash(
       hasher.hash_length,
     )
   case result {
-    Ok(#(raw_hash, encoded_hash)) -> Ok(ArgusHash(raw_hash, encoded_hash))
+    Ok(#(raw_hash, encoded_hash)) -> Ok(Hashes(raw_hash, encoded_hash))
     Error(error) -> Error(error)
   }
 }
