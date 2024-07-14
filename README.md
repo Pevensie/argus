@@ -2,8 +2,8 @@
 
 Argon2 password hashing library for Gleam, based on the reference C implementation.
 
-[![Package Version](https://img.shields.io/hexpm/v/antigone)](https://hex.pm/packages/antigone)
-[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/antigone/)
+[![Package Version](https://img.shields.io/hexpm/v/argus)](https://hex.pm/packages/argus)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/argus/)
 
 This library uses another Pevensie project, [jargon](https://github.com/Pevensie/jargon), to provide the underlying NIF.
 
