@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.2 - 2024-09-23
+
+### Fixed
+
+- Updated `jargon` to v1.0.1 to remove build warnings.
+
 ## v1.0.1 - 2024-08-07
 
 ### Fixed

@@ -15,7 +15,7 @@ packages = [
   { name = "gleam_otp", version = "0.10.0", build_tools = ["gleam"], requirements = ["gleam_erlang", "gleam_stdlib"], otp_app = "gleam_otp", source = "hex", outer_checksum = "0B04FE915ACECE539B317F9652CAADBBC0F000184D586AAAF2D94C100945D72B" },
   { name = "gleam_stdlib", version = "0.39.0", build_tools = ["gleam"], requirements = [], otp_app = "gleam_stdlib", source = "hex", outer_checksum = "2D7DE885A6EA7F1D5015D1698920C9BAF7241102836CE0C3837A4F160128A9C4" },
   { name = "glint", version = "1.0.0-rc2", build_tools = ["gleam"], requirements = ["gleam_community_ansi", "gleam_community_colour", "gleam_stdlib", "snag"], otp_app = "glint", source = "hex", outer_checksum = "FD5C47CE237CA67121F3946ADE7C630750BB67F5E8A4717D2DF5B5EE758CCFDB" },
-  { name = "jargon", version = "1.0.0", build_tools = ["rebar3"], requirements = [], otp_app = "jargon", source = "hex", outer_checksum = "60FBFACC920EAEBC96C76DA3D8ED814FABDDC2103CC0D04FE314A3C15F3174DF" },
+  { name = "jargon", version = "1.0.1", build_tools = ["rebar3"], requirements = [], otp_app = "jargon", source = "hex", outer_checksum = "E969FC304BBC3F69514161DF5F9B6BA71FEF8EACB3B209784BE15FF48EC68689" },
   { name = "ranger", version = "1.2.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "ranger", source = "hex", outer_checksum = "1566C272B1D141B3BBA38B25CB761EF56E312E79EC0E2DFD4D3C19FB0CC1F98C" },
   { name = "simplifile", version = "1.7.0", build_tools = ["gleam"], requirements = ["filepath", "gleam_stdlib"], otp_app = "simplifile", source = "hex", outer_checksum = "1D5DFA3A2F9319EC85825F6ED88B8E449F381B0D55A62F5E61424E748E7DDEB0" },
   { name = "snag", version = "0.3.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "snag", source = "hex", outer_checksum = "54D32E16E33655346AA3E66CBA7E191DE0A8793D2C05284E3EFB90AD2CE92BCC" },
@@ -26,5 +26,5 @@ packages = [
 
 [requirements]
 gleam_stdlib = { version = ">= 0.34.0 and < 2.0.0" }
-jargon = { version = ">= 1.0.0 and < 2.0.0" }
-startest = { version = ">= 0.4.0 and < 1.0.0"}
+jargon = { version = ">= 1.0.1 and < 2.0.0" }
+startest = { version = ">= 0.4.0 and < 1.0.0" }
