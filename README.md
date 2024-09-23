@@ -22,7 +22,7 @@ pub fn main() {
   // Hash a password using the recommended settings for Argon2id.
   let assert Ok(hashes) =
     argus.hasher()
-    |> argus.hash("password", gen_salt())
+    |> argus.hash("password", argus.gen_salt())
 
   // Hash a password with custom settings and a custom salt.
   let assert Ok(hashes) =
