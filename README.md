@@ -41,6 +41,23 @@ pub fn main() {
 
 More information can be found in the [documentation](https://hexdocs.pm/argus/).
 
+## Using in Docker
+
+If you want to deploy a Gleam application using Argus in a Docker container, you'll
+need to make sure your image includes a C compiler to build the Jargon NIF.
+
+### Alpine
+
+```dockerfile
+RUN apk add --no-cache build-base
+```
+
+### Debian
+
+```dockerfile
+RUN apt-get update && apt-get install -y build-essential
+```
+
 ## Why 'Argus'?
 
 [Argus](https://en.wikipedia.org/wiki/Argus_(Argonaut)) was the builder of the
