@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.0.3 - 2025-06-18
+
+### Fixed
+
+- Moved `gleam_stdlib` to dev dependencies to avoid conflicts with new versions.
+- Pin dev dependency versions.
+
 ## v1.0.2 - 2024-09-23
 
 ### Fixed
