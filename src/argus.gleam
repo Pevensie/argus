@@ -162,7 +162,7 @@ pub fn verify(encoded_hash: String, password: String) -> Result(Bool, HashError)
   jargon_verify(encoded_hash, password)
 }
 
-/// Generate a random salt of at least 64 bytes.
+/// Generate a random 16-byte salt.
 @external(erlang, "argus_nif", "gen_salt")
 pub fn gen_salt() -> String
 

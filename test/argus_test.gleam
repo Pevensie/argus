@@ -1,4 +1,5 @@
 import argus
+import gleam/bit_array
 import gleam/set
 import startest.{describe, it}
 import startest/expect
@@ -166,6 +167,11 @@ pub fn gen_salt_tests() {
       |> set.from_list
       |> set.size
       |> expect.to_equal(num_salts)
+    }),
+    it("should generate a 16-byte salt", fn() {
+      let salt = argus.gen_salt()
+      let assert Ok(bytes) = bit_array.base64_decode(salt)
+      assert bit_array.byte_size(bytes) == 16
     }),
     it("should generate salts usable by the Argon2 algorithms", fn() {
       let salt = argus.gen_salt()
