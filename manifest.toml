@@ -17,7 +17,7 @@ packages = [
   { name = "gleam_stdlib", version = "0.59.0", build_tools = ["gleam"], requirements = [], otp_app = "gleam_stdlib", source = "hex", outer_checksum = "F8FEE9B35797301994B81AF75508CF87C328FE1585558B0FFD188DC2B32EAA95" },
   { name = "gleam_yielder", version = "1.1.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_yielder", source = "hex", outer_checksum = "8E4E4ECFA7982859F430C57F549200C7749823C106759F4A19A78AEA6687717A" },
   { name = "glint", version = "1.2.1", build_tools = ["gleam"], requirements = ["gleam_community_ansi", "gleam_community_colour", "gleam_stdlib", "snag"], otp_app = "glint", source = "hex", outer_checksum = "2214C7CEFDE457CEE62140C3D4899B964E05236DA74E4243DFADF4AF29C382BB" },
-  { name = "jargon", version = "1.0.1", build_tools = ["rebar3"], requirements = [], otp_app = "jargon", source = "hex", outer_checksum = "E969FC304BBC3F69514161DF5F9B6BA71FEF8EACB3B209784BE15FF48EC68689" },
+  { name = "jargon", version = "1.1.0", build_tools = ["rebar3"], requirements = [], otp_app = "jargon", source = "hex", outer_checksum = "963FCD2E851F5FCF3821638C088EA1EF07365187319B9145A1D12DD3980162CA" },
   { name = "ranger", version = "1.4.0", build_tools = ["gleam"], requirements = ["gleam_stdlib", "gleam_yielder"], otp_app = "ranger", source = "hex", outer_checksum = "C8988E8F8CDBD3E7F4D8F2E663EF76490390899C2B2885A6432E942495B3E854" },
   { name = "simplifile", version = "2.2.1", build_tools = ["gleam"], requirements = ["filepath", "gleam_stdlib"], otp_app = "simplifile", source = "hex", outer_checksum = "C88E0EE2D509F6D86EB55161D631657675AA7684DAB83822F7E59EB93D9A60E3" },
   { name = "snag", version = "1.1.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "snag", source = "hex", outer_checksum = "7E9F06390040EB5FAB392CE642771484136F2EC103A92AE11BA898C8167E6E17" },
@@ -27,5 +27,5 @@ packages = [
 
 [requirements]
 gleam_stdlib = { version = "0.59.0" }
-jargon = { version = ">= 1.0.1 and < 2.0.0" }
+jargon = { version = ">= 1.1.0 and < 2.0.0" }
 startest = { version = "0.6.0" }
