@@ -58,8 +58,13 @@ RUN apk add --no-cache build-base
 RUN apt-get update && apt-get install -y build-essential
 ```
 
+## Using on Windows
+
+Please see the [Jargon README](https://github.com/Pevensie/jargon#using-on-windows) for details
+on how to ensure Argus will compile on Windows.
+
 ## Why 'Argus'?
 
-[Argus](https://en.wikipedia.org/wiki/Argus_(Argonaut)) was the builder of the
+[Argus](<https://en.wikipedia.org/wiki/Argus_(Argonaut)>) was the builder of the
 [Argo](https://en.wikipedia.org/wiki/Argo) ship and was one of the
 [Argonauts](https://en.wikipedia.org/wiki/Argonauts).
