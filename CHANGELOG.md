@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.0.4 - 2026-04-26
+
+- Changed `gen_salt` to always generate a 16-byte salt, in line with the Argon2 spec
+  recommendations (thanks [@jtdowney](https://github.com/jtdowney)!)
+
 ## v1.0.3 - 2025-06-18
 
 ### Fixed

@@ -1,5 +1,5 @@
 name = "argus"
-version = "1.0.3"
+version = "1.0.4"
 description = "Argon2 password hashing library for Gleam, using the reference C implementation."
 licences = ["MIT"]
 repository = { type = "github", user = "Pevensie", repo = "argus" }
