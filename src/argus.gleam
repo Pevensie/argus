@@ -6,6 +6,11 @@ pub type Argon2Algorithm {
   Argon2id
 }
 
+/// A value containing validated bytes for
+/// [salting](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#salting)
+/// a password.
+///
+/// Usually produced via the [`gen_salt`](#gen_salt) function.
 pub opaque type Salt {
   Salt(bytes: BitArray)
 }
@@ -20,8 +25,8 @@ pub opaque type Hasher {
   )
 }
 
-pub type Hashes {
-  Hashes(raw_hash: BitArray, encoded_hash: String)
+pub type HashOutput {
+  HashOutput(raw_hash: BitArray, encoded_hash: String)
 }
 
 /// All possible Argon2 hashing errors.
@@ -134,7 +139,7 @@ pub fn hash_length(hasher: Hasher, hash_length: Int) -> Hasher {
 /// ```gleam
 /// import argus
 ///
-/// let assert Ok(hashes) =
+/// let assert Ok(hash_output) =
 ///   argus.hasher()
 ///   |> argus.algorithm(argus.Argon2id)
 ///   |> argus.time_cost(3)
@@ -143,9 +148,9 @@ pub fn hash_length(hasher: Hasher, hash_length: Int) -> Hasher {
 ///   |> argus.hash_length(32)
 ///   |> argus.hash("password")
 ///
-/// let assert Ok(True) = argus.verify(hashes.encoded_hash, "password")
+/// let assert Ok(True) = argus.verify(hash_output.encoded_hash, "password")
 /// ```
-pub fn hash(hasher: Hasher, password: String) -> Result(Hashes, HashError) {
+pub fn hash(hasher: Hasher, password: String) -> Result(HashOutput, HashError) {
   do_hash(hasher, password, gen_salt())
 }
 
@@ -175,7 +180,7 @@ pub fn derive_encryption_key(
   salt: Salt,
 ) -> Result(BitArray, HashError) {
   case do_hash(hasher, password, salt) {
-    Ok(hashes) -> Ok(hashes.raw_hash)
+    Ok(hash_output) -> Ok(hash_output.raw_hash)
     Error(error) -> Error(error)
   }
 }
@@ -184,7 +189,7 @@ fn do_hash(
   hasher: Hasher,
   password: String,
   salt: Salt,
-) -> Result(Hashes, HashError) {
+) -> Result(HashOutput, HashError) {
   let result =
     jargon_hash(
       password,
@@ -196,7 +201,7 @@ fn do_hash(
       hasher.hash_length,
     )
   case result {
-    Ok(#(raw_hash, encoded_hash)) -> Ok(Hashes(raw_hash, encoded_hash))
+    Ok(#(raw_hash, encoded_hash)) -> Ok(HashOutput(raw_hash, encoded_hash))
     Error(error) -> Error(error)
   }
 }

@@ -25,7 +25,7 @@ pub fn main() {
     |> argus.hash("password")
 
   // Hash a password with custom settings.
-  let assert Ok(hashes) =
+  let assert Ok(hash_output) =
     argus.hasher()
     |> argus.algorithm(argus.Argon2id)
     |> argus.time_cost(3)
@@ -35,7 +35,7 @@ pub fn main() {
     |> argus.hash("password")
 
   // Verify a password.
-  let assert Ok(True) = argus.verify(hashes.encoded_hash, "password")
+  let assert Ok(True) = argus.verify(hash_output.encoded_hash, "password")
 }
 ```
 
