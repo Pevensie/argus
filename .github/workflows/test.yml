@@ -14,10 +14,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
         with:
-          otp-version: "27.1.2"
-          gleam-version: "1.11.1"
+          otp-version: "29.0.5"
+          gleam-version: "1.18.1"
           rebar3-version: "3"
-          # elixir-version: "1.15.4"
       - run: gleam deps download
       - run: gleam test
       - run: gleam format --check src test
