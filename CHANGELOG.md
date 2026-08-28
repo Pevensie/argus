@@ -1,9 +1,16 @@
 # Changelog
 
+## v2.0.0 - 2026-08-26
+
+- Changed password hashing to always use a random salt.
+- Changed salts to use an opaque `Salt` type for verified whole-byte salts.
+- Added `derive_encryption_key` for key derivation where use of a stored salt is required.
+- Corrected the memory default for Argon2i from 12,228 bytes to 12,288 bytes.
+
 ## v1.0.4 - 2026-04-26
 
 - Changed `gen_salt` to always generate a 16-byte salt, in line with the Argon2 spec
-  recommendations (thanks [@jtdowney](https://github.com/jtdowney)!)
+  recommendations (thanks [@jtdowney](https://github.com/jtdowney)!).
 
 ## v1.0.3 - 2025-06-18
 

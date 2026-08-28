@@ -1,7 +1,13 @@
+import gleam/bit_array
+
 pub type Argon2Algorithm {
   Argon2d
   Argon2i
   Argon2id
+}
+
+pub opaque type Salt {
+  Salt(bytes: BitArray)
 }
 
 pub opaque type Hasher {
@@ -64,7 +70,7 @@ pub type HashError {
 /// [OWASP recommendations](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#argon2id).
 ///
 /// Note: if you change the algorithm to Argon2i, you will need to change the
-/// `memory_cost` to 12_228 (12 mebibytes) or less for performance reasons.
+/// `memory_cost` to 12_288 (12 mebibytes) or less for performance reasons.
 ///
 /// The `hasher_argon2i` function is provided with the recommended settings for
 /// Argon2i.
@@ -87,7 +93,7 @@ pub fn hasher_argon2i() -> Hasher {
     Argon2i,
     3,
     // 12 mebibytes
-    12_228,
+    12_288,
     1,
     32,
   )
@@ -119,32 +125,70 @@ pub fn hash_length(hasher: Hasher, hash_length: Int) -> Hasher {
 }
 
 /// Hash a password using the provided hasher.
-/// 
+///
+/// This will use [`gen_salt`](#gen_salt) to generate a random
+/// salt.
+///
 /// ## Examples
-/// 
+///
 /// ```gleam
 /// import argus
-/// 
+///
 /// let assert Ok(hashes) =
 ///   argus.hasher()
 ///   |> argus.algorithm(argus.Argon2id)
 ///   |> argus.time_cost(3)
-///   |> argus.memory_cost(12228)
+///   |> argus.memory_cost(12288)
 ///   |> argus.parallelism(1)
 ///   |> argus.hash_length(32)
-///   |> argus.hash("password", gen_salt())
-/// 
+///   |> argus.hash("password")
+///
 /// let assert Ok(True) = argus.verify(hashes.encoded_hash, "password")
 /// ```
-pub fn hash(
+pub fn hash(hasher: Hasher, password: String) -> Result(Hashes, HashError) {
+  do_hash(hasher, password, gen_salt())
+}
+
+/// Verify a password using the provided encoded hash.
+pub fn verify(
+  encoded_hash: String,
+  password: String,
+) -> Result(Bool, HashError) {
+  jargon_verify(encoded_hash, password)
+}
+
+/// Derive an encryption key from a password.
+///
+/// You do not need to use this function for password hashing. If you're
+/// using Argus for password hashing, prefer the [`hash`](#hash) function.
+///
+/// You only need this function if you're using Argus to derive fixed-size
+/// cryptographic keys suitable for encryption, such as when encrypting a
+/// file.
+///
+/// In order to be able to re-derive an identical key, you must use the same
+/// salt and set of Argon2 parameters as when the original key was created.
+/// It's recommended that you store these alongside the ciphertext.
+pub fn derive_encryption_key(
   hasher: Hasher,
   password: String,
-  salt: String,
+  salt: Salt,
+) -> Result(BitArray, HashError) {
+  case do_hash(hasher, password, salt) {
+    Ok(hashes) -> Ok(hashes.raw_hash)
+    Error(error) -> Error(error)
+  }
+}
+
+fn do_hash(
+  hasher: Hasher,
+  password: String,
+  salt: Salt,
 ) -> Result(Hashes, HashError) {
   let result =
     jargon_hash(
       password,
-      salt,
+      salt_bytes(salt),
       hasher.algorithm,
       hasher.time_cost,
       hasher.memory_cost,
@@ -157,19 +201,39 @@ pub fn hash(
   }
 }
 
-/// Verify a password using the provided encoded hash.
-pub fn verify(encoded_hash: String, password: String) -> Result(Bool, HashError) {
-  jargon_verify(encoded_hash, password)
+/// Make a salt from a `BitArray`. You'll only need to do this when using
+/// [`derive_encryption_key`](#derive_encryption_key) with a pre-existing
+/// stored salt. For most use cases, [`hash`](#hash) will generate a secure
+/// salt for you.
+///
+/// Returns `Error(Nil)` if the provided `BitArray` does not contain whole
+/// bytes.
+pub fn make_salt(from bytes: BitArray) -> Result(Salt, Nil) {
+  case bit_array.bit_size(bytes) % 8 == 0 {
+    True -> Ok(Salt(bytes))
+    False -> Error(Nil)
+  }
 }
 
 /// Generate a random 16-byte salt.
+pub fn gen_salt() -> Salt {
+  // `gen_salt_bytes` always returns whole bytes in its return value,
+  // so we can bypass `make_salt`'s checks here.
+  Salt(gen_salt_bytes())
+}
+
 @external(erlang, "argus_nif", "gen_salt")
-pub fn gen_salt() -> String
+fn gen_salt_bytes() -> BitArray
+
+/// Retrieve the raw bytes from a [`Salt`](#Salt) value.
+pub fn salt_bytes(salt: Salt) -> BitArray {
+  salt.bytes
+}
 
 @external(erlang, "argus_nif", "hash")
 fn jargon_hash(
   password: String,
-  salt: String,
+  salt_bytes: BitArray,
   algorithm: Argon2Algorithm,
   time_cost: Int,
   memory_cost: Int,

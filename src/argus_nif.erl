@@ -12,4 +12,4 @@ hash(Password, Salt, Algorithm, TimeCost, MemoryCost, Parallelism, HashLength) -
   end.
 
 gen_salt() ->
-  base64:encode(crypto:strong_rand_bytes(16)).
+  crypto:strong_rand_bytes(16).
