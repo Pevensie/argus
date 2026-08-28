@@ -6,6 +6,7 @@
 - Changed salts to use an opaque `Salt` type for verified whole-byte salts.
 - Added `derive_encryption_key` for key derivation where use of a stored salt is required.
 - Corrected the memory default for Argon2i from 12,228 bytes to 12,288 bytes.
+- Renamed `argus.Hashes` to `argus.HashOutput` for clarity.
 
 ## v1.0.4 - 2026-04-26
 
