@@ -22,17 +22,17 @@ pub fn main() {
   // Hash a password using the recommended settings for Argon2id.
   let assert Ok(hashes) =
     argus.hasher()
-    |> argus.hash("password", argus.gen_salt())
+    |> argus.hash("password")
 
-  // Hash a password with custom settings and a custom salt.
+  // Hash a password with custom settings.
   let assert Ok(hashes) =
     argus.hasher()
     |> argus.algorithm(argus.Argon2id)
     |> argus.time_cost(3)
-    |> argus.memory_cost(12228) // 12 mebibytes
+    |> argus.memory_cost(12288) // 12 mebibytes
     |> argus.parallelism(1)
     |> argus.hash_length(32)
-    |> argus.hash("password", "custom_salt")
+    |> argus.hash("password")
 
   // Verify a password.
   let assert Ok(True) = argus.verify(hashes.encoded_hash, "password")
@@ -40,6 +40,19 @@ pub fn main() {
 ```
 
 More information can be found in the [documentation](https://hexdocs.pm/argus/).
+
+## Default settings
+
+Argus' default settings follow [OWASP's minimum recommended configuration guidance](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#introduction),
+and are as follows:
+
+| Setting | Value |
+| --- | --- |
+| Algorithm | Argon2id |
+| Time cost (iterations) | 2 |
+| Memory cost | 19MiB |
+| Parallelism | 1 |
+| Hash length | 32 |
 
 ## Using in Docker
 
